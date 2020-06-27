@@ -76,8 +76,7 @@ $(document).ready(function() {
 					// para recibir las notificaciones en tu endpoint público.
 
 					var orderJSON ={"external_reference": external_reference,
-									"notification_url": "http://www.aguaverde.com.ar",
-									"sponsor_id":null,
+									"notification_url": "http://mercadopagoexamenqrvendedor.herokuapp.com/api/notifications/index.php",
 									"items" : items
 									};
 									console.log(orderJSON);
@@ -103,11 +102,12 @@ $(document).ready(function() {
 						checkStatus = setInterval(function(){
 
 							// Comprueba estado del pago vía Seach de Merchant_order
-
+							//console.log("Search de:");
 							$.get("api/order/status/",{"external_reference":external_reference},function(data){
 								
 								console.log("Search de Merchant_order:");
 								console.log(data);
+								//alert(JSON.stringify(data, null, 4));
 
 								var elements = data.elements;
 								var totalElements = data.total;
@@ -115,6 +115,7 @@ $(document).ready(function() {
 								if(totalElements>0){ 
 
 									var orderStatus = elements[totalElements-1].status;
+									//alert('OS'+orderStatus);
 									$('#orderStatus').text(orderStatus);
 									$('#loading').html("<img src='assets/img/ajax-loader.gif'>");
 

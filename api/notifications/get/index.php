@@ -18,6 +18,5 @@ $url= "";
 
 // Sustituye el método por su correspondiente: get, put, post, delete
 
-curl_call("delete",."$url","");
-
+curl_call("get","https://api.mercadolibre.com/mpmobile/instore/qr/$collector_id/$external_id?access_token=$access_token");
  ?>

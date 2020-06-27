@@ -59,26 +59,28 @@ $(document).ready(function() {
 
 		    // Llama al servicio de obtención de información de un POS/QR en base al external_pos_id o también llamado external_id
 			$.get("api/pos/get/",{"external_id":external_id},function(data){
+				
 				console.log("Obtención información de QR:");
 				console.log(data);
-
+				//alert('S');
 				// Si existe external_ID...
 
-				if(data.paging.total>0){
+				if(data){
 			
 					// Muestra el código QR en pantalla:
 
-					$('#qr').html("<img with='350px' height='350px' src='"+data.results[0].qr.image+"'>");
+					$('#qr').html("<img with='350px' height='350px' src='"+data.qr.image+"'>");
 					
 					// REVISA AQUÍ:
 					// Agrega la URL notification_url 
 					// para recibir las notificaciones en tu endpoint público.
 
 					var orderJSON ={"external_reference": external_reference,
-									"notification_url": "",
+									"notification_url": "http://www.aguaverde.com.ar",
+									"sponsor_id":null,
 									"items" : items
 									};
-
+									console.log(orderJSON);
 					// Crea orden en base al external_id de la página
 
 					$.post("api/order/create/",{"external_id":external_id,"json":JSON.stringify(orderJSON)},function(data){
@@ -325,8 +327,20 @@ $(document).ready(function() {
 		// REVISA AQUÍ:
 		// Modifica el storeJSON con la estructura necesaria para crear una Store correctamente.
 
-		var storeJSON = {}
-
+		var storeJSON = {
+			"name":storeName,
+			
+			"location":{  
+			   "street_number":streetNumber,
+			   "street_name":streetName,
+			   "city_name":city,
+			   "state_name":state,
+			   "latitude":latitude,
+			   "longitude":longitude,
+			   "reference":addressReference
+			},
+			"external_id":externalStoreID
+		 };
 		console.log(storeJSON);
 		$.post("api/store/create/",{json:JSON.stringify(storeJSON)},function(results){
 			console.log("Crea store:");
@@ -340,14 +354,14 @@ $(document).ready(function() {
 ///////////////////////////////////////////////////////////////////////////
 
 	$('#createPOS').click(function(){
-
+		alert();
 		var posName=$('#storeName').val();
 		var externalStoreID=$('#externalStoreIDPOS').val();
 		var externalPOSID=$('#externalPOSID').val();
 
 		// REVISA AQUÍ:
 
-		var category = 1;   // Agrega aquí el número de categoría o MCC necesario para 
+		var category = 621102;   // Agrega aquí el número de categoría o MCC necesario para 
 							// Identificar al POS de restaurante
 
 
@@ -356,12 +370,13 @@ $(document).ready(function() {
 
 		var posJSON ={"name":posName,
 					"external_store_id":externalStoreID,
-					"fixed_amount":false,
-					"category_id":category,
+					"fixed_amount":true,
+					//"category_id":"1",
+					"store_id":"32238980",
 					"external_id":externalPOSID};
 
 
-
+		console.log(posJSON);
 		$.post("api/pos/create/",{json:JSON.stringify(posJSON)},function(results){
 			console.log("Crea POS/QR:");
 			console.log(results);
@@ -384,7 +399,7 @@ var items = [{
 		    "title" : "Caffè Americano",
 		    "picture_url":"https://globalassets.starbucks.com/assets/f12bc8af498d45ed92c5d6f1dac64062.jpg?impolicy=1by1_wide_1242",
 		    "description" : "Espresso shots topped with hot water create a light layer of crema culminating in this wonderfully rich cup with depth and nuance. Pro Tip: For an additional boost, ask your barista to try this with an extra shot.",
-		    "unit_price" : 90,
+		    "unit_price" : 600,
 		    "quantity" : 1
 		  },
 		  {
@@ -392,7 +407,7 @@ var items = [{
 		    "title" : "Caffè Misto",
 		    "picture_url":"https://globalassets.starbucks.com/assets/d668acbc691b47249548a3eeac449916.jpg?impolicy=1by1_wide_1242",
 		    "description" : "A one-to-one combination of fresh-brewed coffee and steamed milk add up to one distinctly delicious coffee drink remarkably mixed.",
-		    "unit_price" : 105,
+		    "unit_price" : 30,
 		    "quantity" : 1
 		  },
 		  {
@@ -400,8 +415,8 @@ var items = [{
 		    "title" : "Iced Lemon Loaf Cake",
 		    "picture_url":"https://globalassets.starbucks.com/assets/c636153c255049a487da5db5b9d5f631.jpg?impolicy=1by1_wide_1242",
 		    "description" : "This citrusy, buttery, moist lemon pound cake topped with a sweet icing creates an amazingly refreshing cake like never before.",
-		    "unit_price" : 125,
-		    "quantity" : 3
+		    "unit_price" : 15,
+		    "quantity" : 2
 		  }];
 
 

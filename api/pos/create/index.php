@@ -17,6 +17,6 @@ $json = $_POST["json"];
 $url ="";
 
 
-curl_call("delete","$url?access_token=$access_token",$json);
+curl_call("post","https://api.mercadopago.com/pos?access_token=".$access_token,$json);
 
 ?>

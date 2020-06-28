@@ -373,7 +373,7 @@ $(document).ready(function() {
 					"external_store_id":externalStoreID,
 					"fixed_amount":true,
 					//"category_id":"1",
-					"store_id":"32238980",
+					"store_id":"32244453",
 					"external_id":externalPOSID};
 
 

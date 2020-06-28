@@ -18,5 +18,5 @@ $url= "";
 
 // Sustituye el método por su correspondiente: get, put, post, delete
 
-curl_call("get",$lastResource['resource']."?access_token=".$access_token);
+curl_call("get",$lastResource."?access_token=".$access_token);
  ?>
